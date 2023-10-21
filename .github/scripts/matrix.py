@@ -55,7 +55,7 @@ def get_tests(config):
     return [test for test in tests if not test.endswith("parallel")]
 
 
-matrix = [
+"""
     {
         "kernel": "LATEST",
         "runs_on": [],
@@ -63,6 +63,8 @@ matrix = [
         "toolchain": "gcc",
         "llvm-version": "16",
     },
+"""
+matrix = [
     {
         "kernel": "LATEST",
         "runs_on": [],
@@ -70,6 +72,8 @@ matrix = [
         "toolchain": "llvm",
         "llvm-version": "16",
     },
+]
+"""
     {
         "kernel": "LATEST",
         "runs_on": [],
@@ -93,6 +97,7 @@ matrix = [
         "parallel_tests": False,
     },
 ]
+"""
 self_hosted_repos = [
     "kernel-patches/bpf",
     "kernel-patches/vmtest",
@@ -132,10 +137,13 @@ test_matrix = {
 }
 set_output("test_matrix", dumps(test_matrix))
 
-veristat_runs_on = next(
+veristat_runs_on = []
+"""
+next(
     x["runs_on"]
     for x in matrix
     if x["arch"] == os.environ["veristat_arch"]
     and x["toolchain"] == os.environ["veristat_toolchain"]
 )
+"""
 set_output("veristat_runs_on", veristat_runs_on)

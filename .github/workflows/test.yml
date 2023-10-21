@@ -150,18 +150,8 @@ jobs:
       - name: Untar artifacts
         # zstd is installed by default in the runner images.
         run: zstd -d -T0  vmlinux-${{ matrix.arch }}-${{ matrix.toolchain_full }}.tar.zst --stdout | tar -xf -
-      - name: Prepare rootfs
-        uses: libbpf/ci/prepare-rootfs@main
-        with:
-          project-name: 'libbpf'
-          arch: ${{ matrix.arch }}
-          kernel: ${{ matrix.kernel }}
-          kernel-root: '.'
-          kbuild-output: ${{ env.KBUILD_OUTPUT }}
-          image-output: '/tmp/root.img'
-          test: ${{ matrix.test }}
       - name: Run selftests
-        uses: libbpf/ci/run-qemu@main
+        uses: chantra/libbpf-ci/run-qemu@vmtest
         continue-on-error: ${{ matrix.continue_on_error }}
         timeout-minutes: ${{ matrix.timeout_minutes }}
         with:
